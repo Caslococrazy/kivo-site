@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kivo — Tráfego pago & performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Outfit:wght@300;400;500;600&family=Inter:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060907;
+    --ink:#F2F5F3;
+    --muted:#8A938D;
+    --faint:#565E58;
+    --green:#23E56D;
+    --mint:#B7F4D0;
+    --blue:#4C8DFF;
+    --hair:rgba(255,255,255,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:15px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--green);color:#04130A}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Outfit',sans-serif;font-weight:500;letter-spacing:-.02em}
+  .num{font-family:'Space Grotesk',monospace}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 32px}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
+
+  /* ── LOGO (fiel à identidade) ────── */
+  .logo{
+    font-family:'Quicksand',sans-serif;font-weight:700;
+    letter-spacing:-.015em;display:inline-flex;align-items:baseline;line-height:1;
+  }
+  .logo .k{color:var(--green)}
+  .logo .i{color:var(--mint);position:relative;font-feature-settings:normal}
+  .logo .i em{font-style:normal;visibility:hidden}
+  .logo .i::before{content:"ı";position:absolute;left:0;color:var(--mint)}
+  .logo .i::after{
+    content:"";position:absolute;left:50%;transform:translateX(-50%);
+    top:.045em;width:.16em;height:.16em;border-radius:50%;background:var(--green);
+  }
+  .logo .vo{color:var(--ink)}
+
+  /* ── NAV ─────────────────────────── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(6,9,7,.8);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--hair);
+  }
+  .nav-in{
+    max-width:1160px;margin:0 auto;padding:20px 32px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  nav .logo{font-size:24px}
+  .nav-links{display:flex;gap:36px;font-size:13.5px;color:var(--muted)}
+  .nav-links a{transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .btn{
+    display:inline-block;
+    background:var(--green);color:#04130A;
+    font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;
+    padding:11px 22px;border-radius:8px;border:none;cursor:pointer;
+    transition:opacity .2s;
+  }
+  .btn:hover{opacity:.85}
+
+  /* ── HERO ─────────────────────────── */
+  header{
+    position:relative;
+    min-height:100svh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:120px 0 0;
+    overflow:hidden;
+  }
+  #bgChart{
+    position:absolute;inset:0;width:100%;height:100%;
+    filter:blur(9px) saturate(1.1);
+    opacity:.5;pointer-events:none;
+  }
+  .hero-veil{
+    position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(90% 70% at 50% 42%, transparent 30%, rgba(6,9,7,.55) 100%),
+      linear-gradient(180deg, rgba(6,9,7,.35) 0%, rgba(6,9,7,.1) 40%, var(--bg) 98%);
+  }
+  .hero-center{
+    position:relative;z-index:2;flex:1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+  }
+  .kicker{font-size:13.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:10px}
+  .kicker b{color:var(--green);font-weight:500}
+  .wordmark{
+    font-size:clamp(110px, 19vw, 280px);
+    line-height:1;user-select:none;
+    filter:drop-shadow(0 12px 60px rgba(0,0,0,.55));
+  }
+  .hero-tag{
+    color:var(--muted);
+    font-size:clamp(15px, 1.4vw, 17px);
+    margin:22px auto 40px;
+    max-width:460px;letter-spacing:.005em;
+  }
+  .hero-actions{display:flex;align-items:center;justify-content:center;gap:28px}
+  .link-quiet{font-size:14px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:2px;transition:color .2s,border-color .2s}
+  .link-quiet:hover{color:var(--ink);border-color:var(--ink)}
+
+  .hero-stats{
+    position:relative;z-index:2;
+    display:flex;justify-content:center;align-items:flex-start;
+    gap:clamp(40px, 8vw, 96px);
+    margin-top:80px;padding:36px 0 56px;
+    border-top:1px solid var(--hair);
+    text-align:center;
+  }
+  .hero-stats > div{padding-top:8px}
+  .hero-stats .num{
+    font-family:'Outfit',sans-serif;font-weight:400;
+    font-size:clamp(32px,3.4vw,42px);
+    color:var(--ink);letter-spacing:-.02em;line-height:1;
+  }
+  .hero-stats .num i{font-style:normal;color:var(--green)}
+  .hero-stats p{
+    font-size:12.5px;color:var(--muted);margin-top:12px;
+    line-height:1.5;letter-spacing:.01em;
+  }
+
+  /* ── SEÇÕES ───────────────────────── */
+  section{padding:130px 0}
+  .sec-head{max-width:640px;margin-bottom:72px}
+  .sec-tag{font-size:13px;color:var(--faint);margin-bottom:18px}
+  h2{font-size:clamp(30px,3.6vw,46px);line-height:1.14;color:var(--ink)}
+  h2 .g{color:var(--green)}
+  .sec-head p{color:var(--muted);margin-top:20px}
+
+  /* ── GRÁFICO ──────────────────────── */
+  #resultado{border-top:1px solid var(--hair)}
+  .chart-top{
+    display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;
+    gap:24px;margin-bottom:40px;
+  }
+  .legend{display:flex;gap:28px}
+  .legend div{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted)}
+  .dot-g{width:9px;height:9px;border-radius:50%;background:var(--green)}
+  .dot-x{width:9px;height:9px;border-radius:50%;background:var(--blue)}
+  .invest{display:flex;gap:26px}
+  .invest button{
+    font-family:'Space Grotesk',monospace;font-size:13.5px;
+    color:var(--faint);background:none;border:none;cursor:pointer;
+    padding:0 0 6px;border-bottom:2px solid transparent;
+    transition:color .2s,border-color .2s;
+  }
+  .invest button:hover{color:var(--muted)}
+  .invest button.on{color:var(--ink);border-color:var(--green)}
+  .chart-box{position:relative}
+  svg{display:block;width:100%;height:auto}
+  .axis-label{font-family:'Space Grotesk',monospace;font-size:11px;fill:var(--faint)}
+  .end-badge{
+    position:absolute;transform:translate(-100%,-140%);
+    color:var(--green);
+    font-family:'Space Grotesk',monospace;font-weight:500;font-size:16px;
+    white-space:nowrap;
+    transition:left 1.2s cubic-bezier(.6,0,.2,1), top 1.2s cubic-bezier(.6,0,.2,1);
+  }
+  .end-badge-x{
+    position:absolute;transform:translate(-100%,-140%);
+    color:var(--blue);
+    font-family:'Space Grotesk',monospace;font-size:13px;white-space:nowrap;
+  }
+  .chart-note{
+    margin-top:36px;font-size:13px;color:var(--faint);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  }
+  .chart-note b{color:var(--muted);font-weight:500}
+  .tip{
+    position:absolute;pointer-events:none;opacity:0;
+    background:rgba(10,16,12,.92);border:1px solid var(--hair);
+    border-radius:10px;padding:10px 14px;
+    font-size:12.5px;transform:translate(-50%,-115%);
+    transition:opacity .15s;white-space:nowrap;z-index:5;
+  }
+  .tip .t-m{font-family:'Space Grotesk',monospace;color:var(--faint);font-size:11px;margin-bottom:4px}
+  .tip div{display:flex;align-items:center;gap:8px}
+  .tip .num{color:var(--ink)}
+  .mile-label{font-family:'Space Grotesk',monospace;font-size:11px;fill:var(--muted)}
+  .mile-line{stroke:rgba(255,255,255,.12);stroke-width:1;stroke-dasharray:2 4}
+
+  /* ── MÉTODO (continuação da curva) ── */
+  #metodo{border-top:1px solid var(--hair)}
+  .steps{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:48px;
+    position:relative;padding-top:34px;
+  }
+  .steps::before{
+    content:"";position:absolute;top:4px;left:0;right:0;height:1px;
+    background:linear-gradient(90deg, var(--green) 0%, rgba(35,229,109,.35) 60%, var(--hair) 100%);
+  }
+  .step{position:relative}
+  .step::before{
+    content:"";position:absolute;top:-34px;left:0;
+    width:9px;height:9px;border-radius:50%;
+    background:var(--green);
+  }
+  .step span{font-family:'Space Grotesk',monospace;font-size:12px;color:var(--green);letter-spacing:.04em}
+  .step h3{font-size:17px;font-weight:500;margin:10px 0 10px}
+  .step p{font-size:13.5px;color:var(--muted)}
+
+  /* ── SERVIÇOS ─────────────────────── */
+  #servicos{border-top:1px solid var(--hair)}
+  .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:48px}
+  .col{border-top:1px solid var(--hair);padding-top:26px}
+  .col:hover{border-color:var(--green)}
+  .col{transition:border-color .3s}
+  .col h3{font-size:17px;font-weight:500;margin-bottom:12px}
+  .col p{font-size:13.5px;color:var(--muted)}
+
+  /* ── NÚMEROS ──────────────────────── */
+  #numeros{border-top:1px solid var(--hair)}
+  .band{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+  .band .num{font-size:clamp(40px,4.5vw,56px);font-weight:400;color:var(--ink);letter-spacing:-.02em;line-height:1}
+  .band .num i{font-style:normal;color:var(--green)}
+  .band p{color:var(--muted);font-size:13.5px;margin-top:12px;max-width:260px}
+
+  /* ── CTA ──────────────────────────── */
+  #contato{border-top:1px solid var(--hair);padding:150px 0}
+  #contato h2{font-size:clamp(36px,4.6vw,60px);margin-bottom:20px}
+  #contato p{color:var(--muted);max-width:440px;margin-bottom:40px}
+  #contato .btn{font-size:15px;padding:14px 30px}
+
+  footer{border-top:1px solid var(--hair);padding:36px 0;font-size:13px;color:var(--faint)}
+  .foot-in{max-width:1160px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer .logo{font-size:19px}
+  .socials{display:flex;gap:22px}
+  .socials a{transition:color .2s}
+  .socials a:hover{color:var(--ink)}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+    .reveal{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+  @media (max-width: 900px){
+    .nav-links{display:none}
+    header{padding-top:150px}
+    .hero-stats{flex-direction:column;gap:32px;align-items:center;padding:32px 0 44px;margin-top:56px}
+    .hero-stats > div{padding-top:0}
+    .cols{grid-template-columns:1fr 1fr;gap:36px}
+    .steps{grid-template-columns:1fr 1fr;gap:40px}
+    .band{grid-template-columns:1fr;gap:40px}
+    section{padding:90px 0}
+  }
+  @media (max-width: 560px){
+    .cols{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .invest{gap:18px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="logo" href="#top" aria-label="Kivo — início"><span class="k">k</span><span class="i"><em>i</em></span><span class="vo">vo</span></a>
+    <div class="nav-links">
+      <a href="#resultado">Resultados</a>
+      <a href="#metodo">Método</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#numeros">Números</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <a class="btn" href="#contato">Falar com a Kivo</a>
+  </div>
+</nav>
+
+<header id="top">
+  <canvas id="bgChart" aria-hidden="true"></canvas>
+  <div class="hero-veil"></div>
+
+  <div class="wrap hero-center">
+    <div class="wordmark logo" aria-hidden="true"><span class="k">k</span><span class="i"><em>i</em></span><span class="vo">vo</span></div>
+    <p class="hero-tag">Escalando ofertas e empresas no mercado.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#contato">Quero escalar minha marca</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-stats">
+      <div><div class="num">R$ 42M<i>+</i></div><p>investidos em<br>redes sociais</p></div>
+      <div><div class="num"><i>+</i>50</div><p>marcas escaladas com<br>alta performance</p></div>
+      <div><div class="num">3,4<i>x</i></div><p>ROAS médio nas<br>contas gerenciadas</p></div>
+    </div>
+  </div>
+</header>
+
+<!-- ── GRÁFICO ── -->
+<section id="resultado">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Com tráfego × sem tráfego</div>
+      <h2>A diferença entre <span class="g">crescer</span> e apenas existir.</h2>
+      <p>Crescimento orgânico é lento e imprevisível. Tráfego pago bem operado é composto: cada real investido alimenta o próximo ciclo. Ajuste o investimento e veja até onde dá pra ir.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="chart-top">
+        <div class="legend">
+          <div><span class="dot-g"></span> Com a Kivo</div>
+          <div><span class="dot-x"></span> Sem tráfego pago</div>
+        </div>
+        <div class="invest" role="group" aria-label="Investimento mensal simulado">
+          <button data-k="1">R$ 5 mil/mês</button>
+          <button data-k="2" class="on">R$ 15 mil/mês</button>
+          <button data-k="3">R$ 40 mil/mês</button>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <svg id="chart" viewBox="0 0 1000 400" role="img" aria-label="Gráfico comparando crescimento de receita com e sem tráfego pago ao longo de 12 meses, com marcos de payback e escala">
+          <defs>
+            <linearGradient id="areaG" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#23E56D" stop-opacity=".14"/>
+              <stop offset="100%" stop-color="#23E56D" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g id="gridg"></g>
+          <g id="yaxis"></g>
+          <path id="areaPath" fill="url(#areaG)" d=""/>
+          <path id="basePath" fill="none" stroke="#4C8DFF" stroke-width="2.5" stroke-linecap="round" d=""/>
+          <path id="kivoPath" fill="none" stroke="#23E56D" stroke-width="2.5" stroke-linecap="round" d=""/>
+          <g id="miles"></g>
+          <circle id="endDot" r="5" fill="#23E56D"/>
+          <circle id="endDotB" r="4" fill="#4C8DFF"/>
+          <g id="hoverG" style="opacity:0">
+            <line id="hLine" y1="40" y2="360" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+            <circle id="hDotK" r="4.5" fill="#23E56D"/>
+            <circle id="hDotB" r="4" fill="#4C8DFF"/>
+          </g>
+          <g id="months"></g>
+          <rect id="hitArea" x="0" y="0" width="1000" height="400" fill="transparent"/>
+        </svg>
+        <div class="end-badge" id="badgeG">+540%</div>
+        <div class="end-badge-x" id="badgeX">+14%</div>
+        <div class="tip" id="tip">
+          <div class="t-m" id="tipM">Jun</div>
+          <div><span class="dot-g"></span><span>Com a Kivo</span><span class="num" id="tipK">2,8x</span></div>
+          <div><span class="dot-x"></span><span>Sem tráfego</span><span class="num" id="tipB">1,1x</span></div>
+        </div>
+      </div>
+
+      <div class="chart-note">
+        <span>Projeção ilustrativa · 12 meses · receita indexada (início = 1x) · curva composta baseada em contas reais</span>
+        <span>Payback médio: <b id="payback">mês 3</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MÉTODO: a continuação da curva ── -->
+<section id="metodo">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">A curva na prática</div>
+      <h2>Cada fase do gráfico é uma <span class="g">etapa do método.</span></h2>
+      <p>A curva não acontece por sorte. Ela é construída em quatro fases — e o gráfico acima mostra exatamente onde cada uma entrega resultado.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <span>Semanas 1–2</span>
+        <h3>Diagnóstico & rastreamento</h3>
+        <p>Auditoria das contas, instalação de pixel e API de conversão. Antes de investir, garantimos que cada real será medido.</p>
+      </div>
+      <div class="step reveal">
+        <span>Mês 1</span>
+        <h3>Estrutura & criativos</h3>
+        <p>Campanhas montadas do jeito certo, com criativos e ofertas desenhados pro seu público — a base da curva.</p>
+      </div>
+      <div class="step reveal">
+        <span>Meses 2–3</span>
+        <h3>Ciclos de teste</h3>
+        <p>Testes rápidos de público, ângulo e página. É aqui que a curva descola da linha cinza e o payback chega.</p>
+      </div>
+      <div class="step reveal">
+        <span>Mês 3+</span>
+        <h3>Escala composta</h3>
+        <p>O que venceu recebe mais verba, o resultado realimenta o ciclo — e a curva vira exponencial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVIÇOS ── -->
+<section id="servicos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">O que fazemos</div>
+      <h2>Especialistas em cada etapa do funil pago.</h2>
+    </div>
+    <div class="cols">
+      <div class="col reveal">
+        <h3>Meta Ads</h3>
+        <p>Estruturas de campanha, públicos e criativos testados em ciclos curtos pra achar o que escala.</p>
+      </div>
+      <div class="col reveal">
+        <h3>Google Ads</h3>
+        <p>Captura de demanda no momento exato: Search, PMax e YouTube com intenção e lucro no centro.</p>
+      </div>
+      <div class="col reveal">
+        <h3>Funis & CRO</h3>
+        <p>Páginas e ofertas desenhadas pra converter — clique caro só é caro quando não vira venda.</p>
+      </div>
+      <div class="col reveal">
+        <h3>Dados & Rastreamento</h3>
+        <p>Pixel, API de conversão e dashboards em tempo real. Decisão por dado, nunca por achismo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NÚMEROS ── -->
+<section id="numeros">
+  <div class="wrap">
+    <div class="band reveal">
+      <div><div class="num">98<i>%</i></div><p>de retenção dos clientes após os primeiros 6 meses de operação</p></div>
+      <div><div class="num"><i>−</i>37<i>%</i></div><p>de redução média no CPL nos primeiros 90 dias de gestão</p></div>
+      <div><div class="num">4<i> em 5</i></div><p>contas atingem o melhor mês histórico dentro do primeiro trimestre</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="contato">
+  <div class="wrap reveal">
+    <div class="sec-tag">Pronto pra escalar?</div>
+    <h2>Vamos ver até onde a <span class="g">sua marca</span> vai.</h2>
+    <p>Diagnóstico gratuito das suas campanhas atuais — ou do potencial que você ainda não destravou.</p>
+    <a class="btn" href="#">Agendar diagnóstico gratuito</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <a class="logo" href="#top"><span class="k">k</span><span class="i"><em>i</em></span><span class="vo">vo</span></a>
+    <span>© 2026 Kivo · Tráfego pago & performance · Curitiba, BR</span>
+    <div class="socials">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── fundo imersivo: gráfico vivo desfocado ── */
+(function(){
+  const cv=document.getElementById('bgChart');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const header=document.getElementById('top');
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const dpr=Math.min(window.devicePixelRatio||1, 2);
+  let W=0,H=0;
+
+  function resize(){
+    W=header.offsetWidth; H=header.offsetHeight;
+    cv.width=W*dpr; cv.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  // camadas de "gráficos" subindo, cada uma com fase e amplitude próprias
+  const layers=[
+    {amp:.06, speed:.55, base:.78, slope:.34, color:'rgba(35,229,109,',  alpha:.55, width:3.5, fill:true},
+    {amp:.09, speed:.38, base:.66, slope:.24, color:'rgba(35,229,109,', alpha:.26, width:2.5, fill:false},
+    {amp:.045,speed:.72, base:.86, slope:.18, color:'rgba(183,244,208,',alpha:.20, width:2,   fill:false}
+  ];
+
+  function y(l,xn,t){
+    const wave =
+      Math.sin(xn*5.2 + t*l.speed*3.1)*.45 +
+      Math.sin(xn*11.7 - t*l.speed*2.2)*.28 +
+      Math.sin(xn*23.0 + t*l.speed*4.7)*.14;
+    return H*( l.base - l.slope*xn + wave*l.amp );
+  }
+
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    const STEPS=90;
+    layers.forEach(l=>{
+      ctx.beginPath();
+      for(let i=0;i<=STEPS;i++){
+        const xn=i/STEPS, px=xn*W, py=y(l,xn,t);
+        i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+      }
+      if(l.fill){
+        const fillPath=new Path2D();
+        for(let i=0;i<=STEPS;i++){
+          const xn=i/STEPS, px=xn*W, py=y(l,xn,t);
+          i===0?fillPath.moveTo(px,py):fillPath.lineTo(px,py);
+        }
+        fillPath.lineTo(W,H); fillPath.lineTo(0,H); fillPath.closePath();
+        const g=ctx.createLinearGradient(0,H*.3,0,H);
+        g.addColorStop(0,'rgba(35,229,109,.20)');
+        g.addColorStop(1,'rgba(35,229,109,0)');
+        ctx.fillStyle=g;
+        ctx.fill(fillPath);
+      }
+      ctx.strokeStyle=l.color+l.alpha+')';
+      ctx.lineWidth=l.width;
+      ctx.stroke();
+    });
+  }
+
+  if(reduced){ draw(0); }
+  else{
+    let t=0;
+    (function frame(){
+      draw(t);
+      t+=0.028;
+      requestAnimationFrame(frame);
+    })();
+  }
+})();
+
+(function(){
+  const W=1000,H=400,PL=52,PR=110,PT=40,PB=40;
+  const iw=W-PL-PR, ih=H-PT-PB;
+  const months=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+
+  const scenarios={
+    1:{r:1.145, label:"+240%",   payback:"mês 4", miles:[[3,"Payback"],[6,"Escala validada"],[10,"Melhor mês histórico"]]},
+    2:{r:1.185, label:"+540%",   payback:"mês 3", miles:[[2,"Payback"],[5,"Escala validada"],[9,"Melhor mês histórico"]]},
+    3:{r:1.235, label:"+1.150%", payback:"mês 2", miles:[[1,"Payback"],[4,"Escala validada"],[7,"Melhor mês histórico"]]}
+  };
+  const baseGrowth=1.011;
+
+  function series(r){const p=[];let v=100;for(let i=0;i<12;i++){p.push(v);v*=r;}return p;}
+  function toXY(pts,maxV){return pts.map((v,i)=>[PL+(i/11)*iw, PT+ih-(v/maxV)*ih]);}
+  function smoothPath(xy){
+    let d=`M ${xy[0][0]} ${xy[0][1]}`;
+    for(let i=1;i<xy.length;i++){
+      const [x0,y0]=xy[i-1],[x1,y1]=xy[i],cx=(x0+x1)/2;
+      d+=` C ${cx} ${y0}, ${cx} ${y1}, ${x1} ${y1}`;
+    }
+    return d;
+  }
+  const fx=v=>(v/100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'x';
+
+  const svg=document.getElementById('chart');
+  const kivoPath=document.getElementById('kivoPath');
+  const basePath=document.getElementById('basePath');
+  const areaPath=document.getElementById('areaPath');
+  const endDot=document.getElementById('endDot');
+  const badgeG=document.getElementById('badgeG');
+  const badgeX=document.getElementById('badgeX');
+  const payback=document.getElementById('payback');
+  const box=document.querySelector('.chart-box');
+  const yaxis=document.getElementById('yaxis');
+  const milesG=document.getElementById('miles');
+  const hoverG=document.getElementById('hoverG');
+  const hLine=document.getElementById('hLine');
+  const hDotK=document.getElementById('hDotK');
+  const hDotB=document.getElementById('hDotB');
+  const hitArea=document.getElementById('hitArea');
+  const tip=document.getElementById('tip');
+  const tipM=document.getElementById('tipM');
+  const tipK=document.getElementById('tipK');
+  const tipB=document.getElementById('tipB');
+
+  const gridg=document.getElementById('gridg');
+  for(let i=0;i<5;i++){
+    const y=PT+(i/4)*ih;
+    gridg.innerHTML+=`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+  }
+  const mg=document.getElementById('months');
+  months.forEach((m,i)=>{
+    const x=PL+(i/11)*iw;
+    mg.innerHTML+=`<text class="axis-label" x="${x}" y="${H-8}" text-anchor="middle">${m}</text>`;
+  });
+
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let currentXY=null, curKivo=null, curOrg=null;
+
+  function positionBadges(xyK,xyB){
+    const rect=svg.getBoundingClientRect();
+    const sx=rect.width/W, sy=rect.height/H;
+    badgeG.style.left=(xyK[11][0]*sx)+'px'; badgeG.style.top=(xyK[11][1]*sy)+'px';
+    badgeX.style.left=(xyB[11][0]*sx)+'px'; badgeX.style.top=(xyB[11][1]*sy)+'px';
+  }
+
+  function renderYAxis(maxV){
+    let html='';
+    for(let i=0;i<5;i++){
+      const y=PT+(i/4)*ih;
+      const v=maxV*(1-i/4);
+      html+=`<text class="axis-label" x="${PL-12}" y="${y+4}" text-anchor="end">${fx(v)}</text>`;
+    }
+    yaxis.innerHTML=html;
+  }
+
+  function renderMiles(sc,xyK,delay){
+    let html='';
+    sc.miles.forEach(([m,label],idx)=>{
+      const [x,y]=xyK[m];
+      const above = idx%2===0 ? -1 : -1; // labels sempre acima, alturas alternadas
+      const ly = y - (idx%2===0 ? 28 : 48);
+      html+=`<g class="mile" style="opacity:0">
+        <line class="mile-line" x1="${x}" y1="${y-8}" x2="${x}" y2="${ly+6}"/>
+        <circle cx="${x}" cy="${y}" r="4" fill="#060907" stroke="#23E56D" stroke-width="2"/>
+        <text class="mile-label" x="${x}" y="${ly}" text-anchor="middle">${label} · ${months[m]}</text>
+      </g>`;
+    });
+    milesG.innerHTML=html;
+    const nodes=milesG.querySelectorAll('.mile');
+    nodes.forEach((n,i)=>{
+      if(reduced){ n.style.opacity=1; return; }
+      n.style.transition=`opacity .5s ease ${delay + i*0.25}s`;
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{ n.style.opacity=1; }));
+    });
+  }
+
+  function render(level,animate){
+    const sc=scenarios[level];
+    const kivo=series(sc.r), org=series(baseGrowth);
+    curKivo=kivo; curOrg=org;
+    const maxV=kivo[11]*1.12;
+    const xyK=toXY(kivo,maxV), xyB=toXY(org,maxV);
+    currentXY={k:xyK,b:xyB};
+
+    const dK=smoothPath(xyK);
+    kivoPath.setAttribute('d',dK);
+    basePath.setAttribute('d',smoothPath(xyB));
+    areaPath.setAttribute('d', dK+` L ${xyK[11][0]} ${PT+ih} L ${xyK[0][0]} ${PT+ih} Z`);
+    endDot.setAttribute('cx',xyK[11][0]); endDot.setAttribute('cy',xyK[11][1]);
+    const endDotB=document.getElementById('endDotB');
+    endDotB.setAttribute('cx',xyB[11][0]); endDotB.setAttribute('cy',xyB[11][1]);
+
+    badgeG.textContent=sc.label;
+    payback.textContent=sc.payback;
+    renderYAxis(maxV);
+    positionBadges(xyK,xyB);
+    hoverG.style.opacity=0; tip.style.opacity=0;
+
+    if(animate && !reduced){
+      renderMiles(sc,xyK,1.2);
+      const len=kivoPath.getTotalLength();
+      kivoPath.style.transition='none';
+      kivoPath.style.strokeDasharray=len;
+      kivoPath.style.strokeDashoffset=len;
+      areaPath.style.transition='none'; areaPath.style.opacity=0;
+      endDot.style.opacity=0;
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        kivoPath.style.transition='stroke-dashoffset 1.6s cubic-bezier(.6,0,.2,1)';
+        kivoPath.style.strokeDashoffset=0;
+        areaPath.style.transition='opacity .9s ease .8s'; areaPath.style.opacity=1;
+        endDot.style.transition='opacity .4s ease 1.4s'; endDot.style.opacity=1;
+      }));
+    } else {
+      renderMiles(sc,xyK,0);
+      kivoPath.style.strokeDasharray='none';
+      areaPath.style.opacity=1; endDot.style.opacity=1;
+    }
+  }
+
+  // hover / toque: crosshair + tooltip
+  function onMove(e){
+    if(!currentXY) return;
+    const rect=svg.getBoundingClientRect();
+    const px=(e.clientX-rect.left)*(W/rect.width);
+    let i=Math.round((px-PL)/iw*11);
+    i=Math.max(0,Math.min(11,i));
+    const [kx,ky]=currentXY.k[i], [,by]=currentXY.b[i];
+    hLine.setAttribute('x1',kx); hLine.setAttribute('x2',kx);
+    hDotK.setAttribute('cx',kx); hDotK.setAttribute('cy',ky);
+    hDotB.setAttribute('cx',kx); hDotB.setAttribute('cy',by);
+    hoverG.style.opacity=1;
+
+    const sx=rect.width/W, sy=rect.height/H;
+    tipM.textContent=months[i];
+    tipK.textContent=fx(curKivo[i]);
+    tipB.textContent=fx(curOrg[i]);
+    tip.style.left=(kx*sx)+'px';
+    tip.style.top=(Math.min(ky,by)*sy)+'px';
+    tip.style.opacity=1;
+  }
+  function onLeave(){ hoverG.style.opacity=0; tip.style.opacity=0; }
+  hitArea.addEventListener('pointermove',onMove);
+  hitArea.addEventListener('pointerdown',onMove);
+  svg.addEventListener('pointerleave',onLeave);
+
+  let level=2;
+  document.querySelectorAll('.invest button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.invest button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      level=+b.dataset.k;
+      render(level,true);
+    });
+  });
+
+  let drawn=false;
+  render(level,false);
+  kivoPath.style.opacity=reduced?1:0;
+  if(!reduced) milesG.style.opacity=0;
+
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.target===box && e.isIntersecting && !drawn){
+        drawn=true;
+        kivoPath.style.opacity=1;
+        milesG.style.opacity=1;
+        render(level,true);
+      }
+      if(e.target.classList.contains('reveal') && e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.2});
+  io.observe(box);
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  window.addEventListener('resize',()=>{ if(currentXY) positionBadges(currentXY.k,currentXY.b); });
+})();
+</script>
+</body>
+</html>

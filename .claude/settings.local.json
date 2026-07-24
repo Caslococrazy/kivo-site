@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node -v)",
+      "PowerShell(npm -v)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/BLACK/AppData/Roaming/**)",
+      "Bash(where.exe node *)",
+      "Bash(wsl.exe -l -v)",
+      "Bash(wsl.exe -e node -v)",
+      "PowerShell(winget --version 2>&1)",
+      "Bash(winget install *)",
+      "Bash(winget list *)",
+      "Read(//c/Users/BLACK/AppData/Local/Programs/**)"
+    ]
+  }
+}
