@@ -27,7 +27,7 @@ export function GET() {
           }}
         >
           <span style={{ color: "#CBF000" }}>k</span>
-          <span style={{ color: "#B7F4D0" }}>i</span>
+          <span style={{ color: "#EEFAAB" }}>i</span>
           <span style={{ color: "#F2F5F3" }}>vo</span>
         </div>
         <div

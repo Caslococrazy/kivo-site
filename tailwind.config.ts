@@ -19,7 +19,7 @@ const config: Config = {
         muted: "#8A938D",
         faint: "#565E58",
         green: "#CBF000",
-        mint: "#B7F4D0",
+        mint: "#EEFAAB",
         blue: "#4C8DFF",
         hair: "rgba(255,255,255,.08)",
       },

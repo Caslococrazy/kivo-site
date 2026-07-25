@@ -16,7 +16,7 @@ interface Layer {
 const LAYERS: Layer[] = [
   { amp: 0.06, speed: 0.55, base: 0.78, slope: 0.34, color: "rgba(203,240,0,", alpha: 0.55, width: 3.5, fill: true },
   { amp: 0.09, speed: 0.38, base: 0.66, slope: 0.24, color: "rgba(203,240,0,", alpha: 0.26, width: 2.5, fill: false },
-  { amp: 0.045, speed: 0.72, base: 0.86, slope: 0.18, color: "rgba(183,244,208,", alpha: 0.2, width: 2, fill: false },
+  { amp: 0.045, speed: 0.72, base: 0.86, slope: 0.18, color: "rgba(238,250,171,", alpha: 0.2, width: 2, fill: false },
 ];
 
 function layerY(l: Layer, xn: number, t: number, H: number) {
