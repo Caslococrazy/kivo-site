@@ -18,8 +18,8 @@ const CONTATOS = [
   },
   {
     label: "E-mail",
-    value: "contato@kivo.com.br", // TODO: revisar copy — e-mail real
-    href: "mailto:contato@kivo.com.br",
+    value: "contato@kivosocial.com.br", // TODO: revisar copy — confirmar se a caixa existe
+    href: "mailto:contato@kivosocial.com.br",
   },
   {
     label: "LinkedIn",

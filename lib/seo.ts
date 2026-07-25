@@ -5,7 +5,7 @@ export const SITE = {
   tagline: "Escalando ofertas e empresas no mercado.",
   description:
     "Kivo é uma agência de gestão de tráfego pago em Curitiba, com atuação nacional. Meta Ads, Google Ads, funis e dados — para marcas que querem escalar com previsibilidade.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://kivo.com.br",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://kivosocial.com.br",
   locale: "pt_BR",
   twitter: "@kivo",
 };
