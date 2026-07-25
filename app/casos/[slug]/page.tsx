@@ -113,7 +113,7 @@ export default function CasoPage({ params }: Props) {
             >
               <path
                 d="M6 22c0-6 3-11 9-13l1 2c-4 2-6 5-6 8h5v9H6v-6zm14 0c0-6 3-11 9-13l1 2c-4 2-6 5-6 8h5v9h-9v-6z"
-                fill="#23E56D"
+                fill="#CBF000"
                 opacity=".5"
               />
             </svg>

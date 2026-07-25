@@ -7,7 +7,7 @@
   --ink: #f2f5f3;
   --muted: #8a938d;
   --faint: #565e58;
-  --green: #23e56d;
+  --green: #cbf000;
   --mint: #b7f4d0;
   --blue: #4c8dff;
   --hair: rgba(255, 255, 255, 0.08);
@@ -109,6 +109,20 @@ select:focus-visible {
 }
 .logo .vo {
   color: var(--ink);
+}
+
+/* ── transição entre rotas ────────── */
+.page-fade {
+  animation: page-fade-in 0.25s cubic-bezier(0.6, 0, 0.2, 1) both;
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ── reveal-on-scroll ─────────────── */

@@ -14,8 +14,8 @@ interface Layer {
 }
 
 const LAYERS: Layer[] = [
-  { amp: 0.06, speed: 0.55, base: 0.78, slope: 0.34, color: "rgba(35,229,109,", alpha: 0.55, width: 3.5, fill: true },
-  { amp: 0.09, speed: 0.38, base: 0.66, slope: 0.24, color: "rgba(35,229,109,", alpha: 0.26, width: 2.5, fill: false },
+  { amp: 0.06, speed: 0.55, base: 0.78, slope: 0.34, color: "rgba(203,240,0,", alpha: 0.55, width: 3.5, fill: true },
+  { amp: 0.09, speed: 0.38, base: 0.66, slope: 0.24, color: "rgba(203,240,0,", alpha: 0.26, width: 2.5, fill: false },
   { amp: 0.045, speed: 0.72, base: 0.86, slope: 0.18, color: "rgba(183,244,208,", alpha: 0.2, width: 2, fill: false },
 ];
 
@@ -78,8 +78,8 @@ export default function HeroBackground() {
           fillPath.lineTo(0, H);
           fillPath.closePath();
           const g = ctx!.createLinearGradient(0, H * 0.3, 0, H);
-          g.addColorStop(0, "rgba(35,229,109,.20)");
-          g.addColorStop(1, "rgba(35,229,109,0)");
+          g.addColorStop(0, "rgba(203,240,0,.20)");
+          g.addColorStop(1, "rgba(203,240,0,0)");
           ctx!.fillStyle = g;
           ctx!.fill(fillPath);
         }

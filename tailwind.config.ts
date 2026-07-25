@@ -18,7 +18,7 @@ const config: Config = {
         ink: "#F2F5F3",
         muted: "#8A938D",
         faint: "#565E58",
-        green: "#23E56D",
+        green: "#CBF000",
         mint: "#B7F4D0",
         blue: "#4C8DFF",
         hair: "rgba(255,255,255,.08)",

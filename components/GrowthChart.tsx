@@ -376,8 +376,8 @@ export default function GrowthChart({
         >
           <defs>
             <linearGradient id="areaG" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#23E56D" stopOpacity=".14" />
-              <stop offset="100%" stopColor="#23E56D" stopOpacity="0" />
+              <stop offset="0%" stopColor="#CBF000" stopOpacity=".14" />
+              <stop offset="100%" stopColor="#CBF000" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -422,7 +422,7 @@ export default function GrowthChart({
             ref={kivoPathRef}
             d={kivoD}
             fill="none"
-            stroke="#23E56D"
+            stroke="#CBF000"
             strokeWidth={2.5}
             strokeLinecap="round"
             style={{
@@ -442,7 +442,7 @@ export default function GrowthChart({
                 }}
               >
                 <line className="mile-line" x1={m.x} y1={m.y - 8} x2={m.x} y2={m.ly + 6} />
-                <circle cx={m.x} cy={m.y} r={4} fill="#060907" stroke="#23E56D" strokeWidth={2} />
+                <circle cx={m.x} cy={m.y} r={4} fill="#060907" stroke="#CBF000" strokeWidth={2} />
                 <text className="mile-label" x={m.x} y={m.ly} textAnchor="middle">
                   {m.label} · {m.month}
                 </text>
@@ -454,7 +454,7 @@ export default function GrowthChart({
             cx={endDotK[0]}
             cy={endDotK[1]}
             r={5}
-            fill="#23E56D"
+            fill="#CBF000"
             style={{ opacity: pathVisible ? 1 : 0, transition: "opacity .4s ease 1.4s" }}
           />
           <circle cx={endDotB[0]} cy={endDotB[1]} r={4} fill="#4C8DFF" />

@@ -163,7 +163,7 @@ export default function ContactForm() {
               <input
                 type="checkbox"
                 value={canal}
-                className="h-4 w-4 accent-[#23E56D]"
+                className="h-4 w-4 accent-[#CBF000]"
                 {...register("canais")}
               />
               {canal}

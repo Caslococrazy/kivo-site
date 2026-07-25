@@ -157,7 +157,7 @@ export default function MetodoPage() {
           className="pointer-events-none absolute bottom-0 left-8 top-0 hidden w-px md:left-1/2 md:block"
           style={{
             background:
-              "linear-gradient(180deg, var(--green) 0%, rgba(35,229,109,.35) 60%, var(--hair) 100%)",
+              "linear-gradient(180deg, var(--green) 0%, rgba(203,240,0,.35) 60%, var(--hair) 100%)",
           }}
           aria-hidden="true"
         />
@@ -184,10 +184,10 @@ export default function MetodoPage() {
                             fill="none"
                             aria-hidden="true"
                           >
-                            <circle cx="7" cy="7" r="6" stroke="#23E56D" strokeWidth="1.5" />
+                            <circle cx="7" cy="7" r="6" stroke="#CBF000" strokeWidth="1.5" />
                             <path
                               d="M4.5 7l1.8 1.8L9.8 5.3"
-                              stroke="#23E56D"
+                              stroke="#CBF000"
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"

@@ -1,33 +1,62 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
 interface RevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
-  as?: "div" | "span";
 }
 
-export default function Reveal({ children, className = "", delay = 0, as = "div" }: RevealProps) {
-  const reduced = useReducedMotion();
-  const Component = motion[as];
+export default function Reveal({ children, className = "", delay = 0 }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
-  if (reduced) {
-    const Static = as;
-    return <Static className={className}>{children}</Static>;
-  }
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+      return;
+    }
+
+    // Já visível na montagem (ex.: topo de uma rota recém-navegada): revela na hora,
+    // sem depender do IntersectionObserver disparar.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setVisible(true);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisible(true);
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <Component
+    <div
+      ref={ref}
       className={className}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, ease: [0.6, 0, 0.2, 1], delay }}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : "translateY(16px)",
+        transition: `opacity .7s ease ${delay}s, transform .7s ease ${delay}s`,
+      }}
     >
       {children}
-    </Component>
+    </div>
   );
 }

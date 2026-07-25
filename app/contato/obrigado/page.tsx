@@ -21,10 +21,10 @@ export default function ObrigadoPage() {
             fill="none"
             aria-hidden="true"
           >
-            <circle cx="28" cy="28" r="26" stroke="#23E56D" strokeWidth="2" />
+            <circle cx="28" cy="28" r="26" stroke="#CBF000" strokeWidth="2" />
             <path
               d="M18 28.5l6.5 6.5L38 21.5"
-              stroke="#23E56D"
+              stroke="#CBF000"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"

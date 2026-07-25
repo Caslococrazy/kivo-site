@@ -159,7 +159,7 @@ export default function HomePage() {
               className="pointer-events-none absolute inset-x-0 top-1 hidden h-px md:block"
               style={{
                 background:
-                  "linear-gradient(90deg, var(--green) 0%, rgba(35,229,109,.35) 60%, var(--hair) 100%)",
+                  "linear-gradient(90deg, var(--green) 0%, rgba(203,240,0,.35) 60%, var(--hair) 100%)",
               }}
             />
             {METHOD_STEPS.map((step, i) => (
