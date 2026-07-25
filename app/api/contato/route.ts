@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { contactSchema } from "@/lib/contact-schema";
 
+// Cloudflare Pages exige runtime edge em toda rota de servidor.
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   let body: unknown;
   try {

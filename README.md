@@ -40,6 +40,33 @@ Sem `RESEND_API_KEY`/`CONTACT_EMAIL_TO` o site roda normalmente, mas o envio do 
 3. Em **Settings → Environment Variables**, adicione as 4 variáveis acima.
 4. Deploy. O sitemap fica em `/sitemap.xml` e o robots em `/robots.txt`, gerados automaticamente.
 
+## Deploy na Cloudflare Pages
+
+O projeto está preparado para a Cloudflare (o adaptador `@cloudflare/next-on-pages` está
+instalado e `/api/contato` roda em runtime `edge`, exigência da plataforma).
+
+Configuração no painel da Cloudflare, ao criar o projeto a partir do repositório:
+
+| Campo | Valor |
+| --- | --- |
+| Framework preset | Next.js |
+| Build command | `npx @cloudflare/next-on-pages` |
+| Build output directory | `.vercel/output/static` |
+
+Em **Settings → Functions → Compatibility flags**, adicione `nodejs_compat`
+(nos ambientes de Production e Preview). Sem essa flag o site não sobe.
+
+Em **Settings → Environment variables**, adicione as mesmas 4 variáveis da tabela acima.
+
+**Atenção — limitações conhecidas:**
+
+- O comando `npm run pages:build` **não roda no Windows** sem WSL. A ferramenta avisa isso
+  explicitamente. O build da Cloudflare (que roda em Linux) funciona normalmente; só não dá
+  para testá-lo localmente nesta máquina.
+- O adaptador está fixado na versão `1.13.12`. As versões seguintes exigem Next.js 15, e este
+  projeto está no 14.2. Ao atualizar o Next para a 15, dá para migrar para o adaptador atual
+  (ou para `@opennextjs/cloudflare`, que roda em Cloudflare Workers).
+
 ## Onde editar
 
 ### Cases (`content/casos.ts`)
