@@ -111,6 +111,68 @@ select:focus-visible {
   color: var(--ink);
 }
 
+/* ── entrada + brilho do logo no hero ── */
+.logo-intro {
+  display: inline-block;
+  animation: logo-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* sem filter aqui: um filter persistente isolaria o mix-blend-mode do brilho */
+@keyframes logo-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.logo-shine {
+  position: relative;
+  display: inline-block;
+}
+
+/* cópia do wordmark sobreposta: o gradiente é recortado nas letras,
+   então o brilho corre só sobre os glifos — nunca sobre o fundo */
+.logo-glint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    100deg,
+    transparent 44%,
+    rgba(255, 255, 255, 0.9) 50%,
+    transparent 56%
+  );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: logo-glint 0.9s ease-out 0.8s both;
+}
+
+.logo-glint .k,
+.logo-glint .i,
+.logo-glint .vo,
+.logo-glint .i::before {
+  color: transparent;
+}
+
+.logo-glint .i::after {
+  background: transparent;
+}
+
+@keyframes logo-glint {
+  from {
+    background-position-x: 100%;
+  }
+  to {
+    background-position-x: 0%;
+  }
+}
+
 /* ── transição entre rotas ────────── */
 .page-fade {
   animation: page-fade-in 0.25s cubic-bezier(0.6, 0, 0.2, 1) both;

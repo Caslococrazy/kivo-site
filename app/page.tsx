@@ -93,12 +93,22 @@ export default function HomePage() {
         />
 
         <div className="wrap relative z-[2] flex flex-1 flex-col items-center justify-center text-center">
-          <Logo
-            size={110}
-            href={null}
-            ariaHidden
-            className="text-[clamp(110px,19vw,280px)] leading-none [filter:drop-shadow(0_12px_60px_rgba(0,0,0,.55))]"
-          />
+          <div className="logo-intro logo-shine">
+            <Logo
+              size={110}
+              href={null}
+              ariaHidden
+              className="text-[clamp(110px,19vw,280px)] leading-none [filter:drop-shadow(0_12px_60px_rgba(0,0,0,.55))]"
+            />
+            <span className="logo-glint" aria-hidden="true">
+              <Logo
+                size={110}
+                href={null}
+                ariaHidden
+                className="text-[clamp(110px,19vw,280px)] leading-none"
+              />
+            </span>
+          </div>
           <p className="mx-auto my-6 max-w-[460px] text-[clamp(15px,1.4vw,17px)] tracking-[.005em] text-muted">
             Escalando ofertas e empresas no mercado.
           </p>
